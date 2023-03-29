@@ -10,11 +10,11 @@ import org.example.validation.TemaValidator;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ServiceStudentTest {
+public class ServiceAssignmentTest {
 
     private final Service service;
 
-    public ServiceStudentTest() {
+    public ServiceAssignmentTest() {
         String filenameStudent = "studentitest.xml";
         String filenameTema = "temetest.xml";
         String filenameNota = "notetest.xml";
@@ -26,30 +26,17 @@ public class ServiceStudentTest {
     }
 
     @Test
-    public void testAddStudentWithInvalidId() {
-        int result = service.saveStudent(null, "1231", 111);
+    public void testAddAssignmentWithInvalidId() {
+        int result = service.saveTema(null, "desc", 5, 3);
 
         Assert.assertEquals(0, result);
     }
 
     @Test
-    public void testAddStudentWithInvalidName() {
-        int result = service.saveStudent("1", null, 111);
+    public void testAddAssignmentWithInvalidDescription() {
+        String assignmentId = String.valueOf(Math.round(Math.random() % 1000));
+        int result = service.saveTema(assignmentId, null, 5, 3);
 
         Assert.assertEquals(0, result);
-    }
-
-    @Test
-    public void testAddStudentWithInvalidGroup() {
-        int result = service.saveStudent("1", "ana", -1);
-
-        Assert.assertEquals(0, result);
-    }
-
-    @Test
-    public void testAddStudentWithValidInput(){
-        int result = service.saveStudent("10", "Ana", 934);
-
-        Assert.assertEquals(1, result);
     }
 }
