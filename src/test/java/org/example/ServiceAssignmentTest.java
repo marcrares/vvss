@@ -39,4 +39,30 @@ public class ServiceAssignmentTest {
 
         Assert.assertEquals(0, result);
     }
+
+    @Test
+    public void testAddAssignmentWithInvalidDeadline() {
+        String assignmentId = String.valueOf(Math.round(Math.random() % 1000));
+        int result = service.saveTema(assignmentId, "desc", 16, 3);
+
+        Assert.assertEquals(0, result);
+    }
+
+    @Test
+    public void testAddAssignmentWithInvalidStartline() {
+        String assignmentId = String.valueOf(Math.round(Math.random() % 1000));
+        int result = service.saveTema(assignmentId, "desc", 14, 0);
+
+        Assert.assertEquals(0, result);
+    }
+
+    @Test
+    public void testAddAssignmentWithValidInput() {
+        String assignmentId = String.valueOf(Math.round(Math.random() % 1000));
+        int result = service.saveTema(assignmentId, "desc", 12, 11);
+
+        Assert.assertEquals(1, result);
+    }
+
+
 }
