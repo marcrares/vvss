@@ -8,21 +8,28 @@ import java.time.temporal.WeekFields;
 import java.util.Locale;
 
 public class Service {
-    private StudentXMLRepository studentXmlRepo;
-    private TemaXMLRepository temaXmlRepo;
-    private NotaXMLRepository notaXmlRepo;
+    private AbstractCRUDRepository<String, Student> studentXmlRepo;
+    private AbstractCRUDRepository<String, Tema> temaXmlRepo;
+    private AbstractCRUDRepository<Pair<String, String>, Nota> notaXmlRepo;
 
-    public Service(StudentXMLRepository studentXmlRepo, TemaXMLRepository temaXmlRepo, NotaXMLRepository notaXmlRepo) {
+    public Service(AbstractCRUDRepository<String, Student> studentXmlRepo, AbstractCRUDRepository<String, Tema> temaXmlRepo,
+                   AbstractCRUDRepository<Pair<String, String>, Nota> notaXmlRepo) {
         this.studentXmlRepo = studentXmlRepo;
         this.temaXmlRepo = temaXmlRepo;
         this.notaXmlRepo = notaXmlRepo;
     }
 
-    public Iterable<Student> findAllStudents() { return studentXmlRepo.findAll(); }
+    public Iterable<Student> findAllStudents() {
+        return studentXmlRepo.findAll();
+    }
 
-    public Iterable<Tema> findAllTeme() { return temaXmlRepo.findAll(); }
+    public Iterable<Tema> findAllTeme() {
+        return temaXmlRepo.findAll();
+    }
 
-    public Iterable<Nota> findAllNote() { return notaXmlRepo.findAll(); }
+    public Iterable<Nota> findAllNote() {
+        return notaXmlRepo.findAll();
+    }
 
     public int saveStudent(String id, String nume, int grupa) {
         Student student = new Student(id, nume, grupa);
@@ -47,14 +54,13 @@ public class Service {
     public int saveNota(String idStudent, String idTema, double valNota, int predata, String feedback) {
         if (studentXmlRepo.findOne(idStudent) == null || temaXmlRepo.findOne(idTema) == null) {
             return -1;
-        }
-        else {
+        } else {
             int deadline = temaXmlRepo.findOne(idTema).getDeadline();
 
             if (predata - deadline > 2) {
-                valNota =  1;
+                valNota = 1;
             } else {
-                valNota =  valNota - 2.5 * (predata - deadline);
+                valNota = valNota - 2.5 * (predata - deadline);
             }
             Nota nota = new Nota(new Pair(idStudent, idTema), valNota, predata, feedback);
             Nota result = notaXmlRepo.save(nota);
@@ -126,9 +132,9 @@ public class Service {
         return 0;
     }
 
-    public void createStudentFile(String idStudent, String idTema) {
-        Nota nota = notaXmlRepo.findOne(new Pair(idStudent, idTema));
-
-        notaXmlRepo.createFile(nota);
-    }
+//    public void createStudentFile(String idStudent, String idTema) {
+//        Nota nota = notaXmlRepo.findOne(new Pair(idStudent, idTema));
+//
+//        notaXmlRepo.createFile(nota);
+//    }
 }

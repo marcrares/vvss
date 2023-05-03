@@ -1,5 +1,7 @@
 package org.example.domain;
 
+import java.util.Objects;
+
 public class Nota implements HasID<Pair<String, String>> {
     Pair<String, String> idNota;
     private double nota;
@@ -30,6 +32,14 @@ public class Nota implements HasID<Pair<String, String>> {
     public String getFeedback() { return feedback; }
 
     public void setFeedback(String feedback) { this.feedback = feedback; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Nota nota = (Nota) o;
+        return Objects.equals(idNota, nota.idNota);
+    }
 
     @Override
     public String toString() {
